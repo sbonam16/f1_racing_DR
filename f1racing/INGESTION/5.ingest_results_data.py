@@ -74,6 +74,15 @@ results_ingestion_date = add_ingestion_date(results_renamed_df)
 # COMMAND ----------
 
 # MAGIC %md
+# MAGIC dedupe the dataframe (remove duplicates)
+
+# COMMAND ----------
+
+results_dedupe_df=results_ingestion_date.dropDuplicates(['race_id','driver_id'])
+
+# COMMAND ----------
+
+# MAGIC %md
 # MAGIC method 1 for incfemental load 
 
 # COMMAND ----------
@@ -100,7 +109,17 @@ results_ingestion_date = add_ingestion_date(results_renamed_df)
 
 # COMMAND ----------
 
-overwrite_partition(results_ingestion_date,'f1_processed','results','race_id')
+#overwrite_partition(results_ingestion_date,'f1_processed','results','race_id')
+
+# COMMAND ----------
+
+mergeCondition="tgt.result_id = src.result_id AND tgt.race_id = src.race_id"
+mergeData(results_dedupe_df,'f1_processed','results',f"{processed_folder_path}",mergeCondition,"race_id")
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC
 
 # COMMAND ----------
 
@@ -108,3 +127,17 @@ overwrite_partition(results_ingestion_date,'f1_processed','results','race_id')
 # MAGIC select race_id,count(1) from f1_processed.results
 # MAGIC group by race_id
 # MAGIC order by race_id desc
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC to check duplicates
+
+# COMMAND ----------
+
+# MAGIC
+# MAGIC %sql 
+# MAGIC select race_id,driver_id,count(1) from f1_processed.results
+# MAGIC group by race_id,driver_id
+# MAGIC HAVING count(1)>1
+# MAGIC order by race_id,driver_id desc

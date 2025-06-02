@@ -72,8 +72,9 @@ races_renamed_df = race_col_df.withColumnRenamed('raceID','race_id') \
 
 # COMMAND ----------
 
-races_renamed_df.write.mode('overwrite').format("parquet").saveAsTable('f1_processed.races')
+races_renamed_df.write.mode('overwrite').format("delta").saveAsTable('f1_processed.races')
 
 # COMMAND ----------
 
-display(races_renamed_df)
+# MAGIC %sql
+# MAGIC SELECT * FROM f1_processed.races;

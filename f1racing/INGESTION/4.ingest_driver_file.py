@@ -66,12 +66,4 @@ drivers_renamed_df = drivers_df.withColumnRenamed('driverID','driver_id')\
 
 # COMMAND ----------
 
-drivers_renamed_df.write.mode('overwrite').format("parquet").saveAsTable('f1_processed.drivers')
-
-# COMMAND ----------
-
-display(spark.read.parquet(f'{processed_folder_path}/drivers'))
-
-# COMMAND ----------
-
-
+drivers_renamed_df.write.mode('overwrite').format("delta").saveAsTable('f1_processed.drivers')

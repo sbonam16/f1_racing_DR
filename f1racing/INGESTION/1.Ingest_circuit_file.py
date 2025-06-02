@@ -95,16 +95,7 @@ circuits_final_df= add_ingestion_date(circuits)
 
 # COMMAND ----------
 
-circuits_final_df.write.mode('overwrite').format("parquet").saveAsTable("f1_processed.circuits")
-
-# COMMAND ----------
-
-df =spark.read.parquet(f'{processed_folder_path}/circuits')
-
-
-# COMMAND ----------
-
-display(df)
+circuits_final_df.write.mode('overwrite').format("delta").saveAsTable("f1_processed.circuits")
 
 # COMMAND ----------
 

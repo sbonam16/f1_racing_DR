@@ -55,7 +55,12 @@ pitstop_ingestion_date =add_ingestion_date(pitstop_renamed)
 
 # COMMAND ----------
 
-overwrite_partition(pitstop_ingestion_date,'f1_processed','pitstops','race_id')
+#overwrite_partition(pitstop_ingestion_date,'f1_processed','pitstops','race_id')
+
+# COMMAND ----------
+
+mergeCondition="tgt.driver_id = src.driver_id AND tgt.race_id = src.race_id"
+mergeData(pitstop_ingestion_date,'f1_processed','pitstops',f"{processed_folder_path}",mergeCondition,"race_id")
 
 # COMMAND ----------
 

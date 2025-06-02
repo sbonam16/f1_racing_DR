@@ -51,12 +51,4 @@ const_renamed_df = const_dropped_df.withColumnRenamed('constructorId','construct
 
 # COMMAND ----------
 
-const_renamed_df.write.mode('overwrite').format("parquet").saveAsTable('f1_processed.constructors')
-
-# COMMAND ----------
-
-const_final_df= spark.read.parquet(f'{processed_folder_path}/constructors')
-
-# COMMAND ----------
-
-display(const_final_df)
+const_renamed_df.write.mode('overwrite').format("delta").saveAsTable('f1_processed.constructors')

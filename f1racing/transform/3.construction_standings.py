@@ -12,7 +12,7 @@ v_file_date=dbutils.widgets.get('p_file_date')
 
 # COMMAND ----------
 
-constructor_standing_df = spark.read.parquet(f"{presentation_folder_path}/race_results")\
+constructor_standing_df = spark.read.format('delta').load(f"{presentation_folder_path}/race_results")\
     .filter(f"file_date='{v_file_date}'").select('race_year').distinct().collect()
 
 
@@ -26,7 +26,7 @@ print(column)
 # COMMAND ----------
 
 from pyspark.sql.functions import col
-constructor_standing_df = spark.read.parquet(f"{presentation_folder_path}/race_results")\
+constructor_standing_df = spark.read.format('delta').load(f"{presentation_folder_path}/race_results")\
     .filter(col("race_year").isin(column))
 
 # COMMAND ----------
@@ -47,7 +47,12 @@ team_rank_df = constructor_df.withColumn('rank', rank().over(constructor_rank))
 # COMMAND ----------
 
 
-overwrite_partition(team_rank_df, 'f1_presentation', 'constructor_standings', 'race_year')
+#overwrite_partition(team_rank_df, 'f1_presentation', 'constructor_standings', 'race_year')
+
+# COMMAND ----------
+
+mergeCondition="tgt.team = src.team AND tgt.race_year = src.race_year"
+mergeData(team_rank_df,'f1_presentation','constructor_standings',f"{presentation_folder_path}",mergeCondition,"race_year")
 
 # COMMAND ----------
 

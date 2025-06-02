@@ -61,7 +61,12 @@ qualifying_ingestion_date=add_ingestion_date(qualifying_renamed)
 
 # COMMAND ----------
 
-overwrite_partition(qualifying_ingestion_date,'f1_processed','qualifying','race_id')
+#overwrite_partition(qualifying_ingestion_date,'f1_processed','qualifying','race_id')
+
+# COMMAND ----------
+
+mergeCondition="tgt.qualify_ID = src.qualify_ID AND tgt.race_id = src.race_id"
+mergeData(qualifying_ingestion_date,'f1_processed','qualifying',f"{processed_folder_path}",mergeCondition,"race_id")
 
 # COMMAND ----------
 

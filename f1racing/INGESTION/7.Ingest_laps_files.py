@@ -56,8 +56,13 @@ laptime_ingestion_date=add_ingestion_date(laptime_renamed)
 
 # COMMAND ----------
 
-overwrite_partition(laptime_ingestion_date,'f1_processed','lap_times','race_id')
+#overwrite_partition(laptime_ingestion_date,'f1_processed','lap_times','race_id')
 
+
+# COMMAND ----------
+
+mergeCondition="tgt.driver_id = src.driver_id AND tgt.race_id = src.race_id AND tgt.lap = src.lap"
+mergeData(laptime_ingestion_date,'f1_processed','lap_times',f"{processed_folder_path}",mergeCondition,"race_id")
 
 # COMMAND ----------
 
