@@ -59,7 +59,8 @@ pitstop_ingestion_date =add_ingestion_date(pitstop_renamed)
 
 # COMMAND ----------
 
-mergeCondition="tgt.driver_id = src.driver_id AND tgt.race_id = src.race_id"
+mergeCondition = "tgt.driver_id = src.driver_id AND tgt.race_id = src.race_id AND tgt.stop = src.stop"
+
 mergeData(pitstop_ingestion_date,'f1_processed','pitstops',f"{processed_folder_path}",mergeCondition,"race_id")
 
 # COMMAND ----------

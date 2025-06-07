@@ -22,3 +22,8 @@ display(dbutils.fs.ls('abfss://demo@f1bonamdll.dfs.core.windows.net/'))
 # COMMAND ----------
 
 display(spark.read.csv("abfss://demo@f1bonamdll.dfs.core.windows.net/circuits.csv"))
+
+# COMMAND ----------
+
+spark.conf.unset("fs.azure.account.key.f1bonamdll.dfs.core.windows.net")
+

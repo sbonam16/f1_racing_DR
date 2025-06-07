@@ -3,7 +3,7 @@ display(dbutils.fs.ls('/'))
 
 # COMMAND ----------
 
-display(dbutils.fs.ls('/FileStore/tables'))
+display(dbutils.fs.ls('/FileStore'))
 
 # COMMAND ----------
 
